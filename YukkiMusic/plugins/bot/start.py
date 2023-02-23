@@ -24,6 +24,8 @@ from YukkiMusic.plugins.play.playlist import del_plist_msg
 from YukkiMusic.plugins.sudo.sudoers import sudoers_list
 from YukkiMusic.utils.database import (add_served_chat,
                                        add_served_user,
+                                       get_served_chats,
+                                       get_served_users,
                                        blacklisted_chats,
                                        get_assistant, get_lang,
                                        get_userss, is_on_off,
