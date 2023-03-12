@@ -51,12 +51,12 @@ async def play_commnd(
 ):
     if not await is_served_user(message.from_user.id):
         await message.reply_text(
-            text="Error, You're Not A Verified User.\nPlease Click on The Below Button To Verify Yourself.",
+            text="⚠️  Error , Not a Verified User ⚠️\nPlease start the bot in Private Message Box First and Then use it.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="Click Here To Verify 🚀",
+                            text="🚀Click Here To Verify",
                             url=f"https://t.me/{app.username}?start=verify",
                         )
                     ]
