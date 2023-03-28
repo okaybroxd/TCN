@@ -1,9 +1,18 @@
+#
+# Copyright (C) 2021-2022 by TeamYukki@Github, < https://github.com/TeamYukki >.
+#
+# This file is part of < https://github.com/TeamYukki/YukkiMusicBot > project,
+# and is released under the "GNU v3.0 License Agreement".
+# Please see < https://github.com/TeamYukki/YukkiMusicBot/blob/master/LICENSE >
+#
+# All rights reserved.
+
 import random
 import string
 from ast import ExceptHandler
 
 from pyrogram import filters
-from pyrogram.types import (InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto,
+from pyrogram.types import (InlineKeyboardMarkup, InputMediaPhoto,
                             Message)
 from pytgcalls.exceptions import NoActiveGroupCall
 
@@ -22,7 +31,6 @@ from YukkiMusic.utils.formatters import formats
 from YukkiMusic.utils.inline.play import (livestream_markup,
                                           playlist_markup,
                                           slider_markup, track_markup)
-from YukkiMusic.utils.database import is_served_user
 from YukkiMusic.utils.inline.playlist import botplaylist_markup
 from YukkiMusic.utils.logger import play_logs
 from YukkiMusic.utils.stream.stream import stream
@@ -49,21 +57,6 @@ async def play_commnd(
     url,
     fplay,
 ):
-    if not await is_served_user(message.from_user.id):
-        await message.reply_text(
-            text="⚠️  Error , Not a Verified User ⚠️\nPlease start the bot in Private Message Box First and Then use it.",
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="🚀Click Here To Verify",
-                            url=f"https://t.me/{app.username}?start=verify",
-                        )
-                    ]
-                ]
-            ),
-        )
-        return
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
@@ -224,7 +217,7 @@ async def play_commnd(
                 and not config.SPOTIFY_CLIENT_SECRET
             ):
                 return await mystic.edit_text(
-                    "ᴛʜɪs ʙᴏᴛ ᴄᴀɴ'ᴛ ᴩʟᴀʏ sᴩᴏᴛɪғʏ ᴛʀᴀᴄᴋs ᴀɴᴅ ᴩʟᴀʏʟɪsᴛs, ᴩʟᴇᴀsᴇ ᴄᴏɴᴛᴀᴄᴛ ᴍʏ ᴏᴡɴᴇʀ ᴀɴᴅ ᴀsᴋ ʜɪᴍ ᴛᴏ ᴀᴅᴅ sᴩᴏᴛɪғʏ ᴩʟᴀʏᴇʀ."
+                    "This bot isn't able to play spotify queries. Please ask my owner to enable spotify."
                 )
             if "track" in url:
                 try:
@@ -342,14 +335,14 @@ async def play_commnd(
             return await mystic.delete()
         else:
             try:
-                await Anon.stream_call(url)
+                await Yukki.stream_call(url)
             except NoActiveGroupCall:
                 await mystic.edit_text(
-                    "There's is an error in the bot, please report it to support chat as soon as possible."
+                    "There's an issue with the bot. Please report it to my owner and ask them to check logger group."
                 )
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    "Turn On Voice Chat To Stream Url.",
+                    "Please turn on Voice Chat.. Bot is not able to stream urls..",
                 )
             except Exception as e:
                 return await mystic.edit_text(
@@ -598,7 +591,7 @@ async def play_music(client, CallbackQuery, _):
 async def anonymous_check(client, CallbackQuery):
     try:
         await CallbackQuery.answer(
-            "ʏᴏᴜ'ʀᴇ ᴀɴ ᴀɴᴏɴʏᴍᴏᴜs ᴀᴅᴍɪɴ\n\nʀᴇᴠᴇʀᴛ ʙᴀᴄᴋ ᴛᴏ ᴜsᴇʀ ᴀᴄᴄᴏᴜɴᴛ ғᴏʀ ᴜsɪɴɢ ᴍᴇ.",
+            "You're an Anonymous Admin\n\nGo to your group's setting \n-> Administrators List \n-> Click on your name \n-> uncheck REMAIN ANONYMOUS button there.",
             show_alert=True,
         )
     except:
